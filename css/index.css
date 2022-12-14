@@ -1,0 +1,46 @@
+#wrapper{
+	display: flex;
+	width: 100vw;
+}
+
+#describe{
+	border-right: 2px solid;
+	border-top:  2px solid;
+	border-bottom:  2px solid;
+	height: 80vh;
+	width: 300px
+}
+
+#gridwrapper{
+	margin: 5px;
+	padding: 10px;
+	margin: auto auto;
+}
+
+#grids{	
+	display: flex;
+	flex-direction: column;
+}
+
+#row{
+	display: flex;
+}
+
+.hide{
+	visibility: hidden;
+}
+
+#cell{
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	border: solid;
+	border-width: 2px;
+	text-align: center;
+	margin: -1px;
+	
+}
+
+.blank{
+	background-color: black;
+}
