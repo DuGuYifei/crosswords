@@ -11,21 +11,16 @@
 		<div id="app">
 			<div id="wrapper">
 				<div id="describe">
-					<p>
-						Words: <br />
-						1. abc <br />
-						2. bca
-					</p>
-					<p>
-						Description:<br />
-						1. abc<br />
-						2. bca<br />
-					</p>
+					<span v-for="item in wordlist">{{item}}, </span> 
+					<br />
+					<br />
+					Description:
+					<div class="word" v-for="(word, key) in descriptionList">{{key + 1}}. {{word[2]}}</div>
 				</div>
 				<div id="gridwrapper">
 					<div id="grids">
 						<div id="row" v-for="(rowlist, idRow) in charlists">
-							<div id="cell" v-for="(grid, idCol) in rowlist" @click="clickCell(grid, idRow, idCol)" :class="grid.isBlank === 1? 'hide' : (grid.char == '#'? 'blank':'')" >
+							<div id="cell" v-for="(grid, idCol) in rowlist" @click="clickCell(grid, idRow, idCol)" :class="grid.isBlank === 1? 'hide' : (grid.char == '#'? 'blank': (grid.isBlank == -1? 'index' : 'char'))" >
 								{{grid.char}}
 							</div>
 						</div>
@@ -36,31 +31,80 @@
 		<script>
 			let rowOrder = true;
 			let colOrder = false;
-			
-			let firstMap = {1: [rowOrder, "abc"], 2: [colOrder, "bca"]}
+			let source = [
+				[colOrder, "complywith","conform, submit, or adapt as required or requested."],
+				[rowOrder, "prudent","acting with or showing care and thought for the future. (planning well in advance and investing in areas where you can expect high returns.)"],
+				[colOrder, "wrongdoing","behaviour that is illegal or immoral "],
+				[colOrder, "lawful","an activity, organisation, or product is allowed by law."],
+				[rowOrder, "accountability","An assurance that an individual or organisation is evaluated on its performance or behaviour related to something for which it is responsible."],
+				[colOrder, "fraud","Wrongful or criminal deception intended to result in financial or personal gain."],
+				[rowOrder, "comeclean","tell the truth about something that you have been keeping secret."],
+				[colOrder, "takethehelm","take a position of full control or authority in an organisation."],
+				[rowOrder, "pleadguilty","confess/admit responsibility"],
+				[colOrder, "lawsuit","a proceeding by a party or parties against another in the civil court."],
+				[colOrder, "nepotism","It is an advantage, privilege, or position that is granted to relatives and friends in an occupation or field."],
+				[colOrder, "whistleblower","an employee, who reveals information about activity within a private or public organisation that is deemed illegal."],
+				[rowOrder, "legitimise","Officially allow something (especially bad things), or make it seem acceptable."],
+				[rowOrder, "legitimate","Used to describe that something is acceptable according to the law or reasonable and justified."],
+				[rowOrder, "tocookthebook","alter facts or figures dishonestly or illegally."],
+				]
 			const App = {
 				data() {
 					return {
+						wordlist: ['whistleblower','nepotism','lawsuit','tocookthebook','legitimise','legitimate','takethehelm','fraud','wrongdoing','lawful','prudent','pleadguilty','nepotism','complywith','accountability'],
 						charlists: [
-							[{isBlank: 1, char: ' '},{isBlank: 1, char: ' '},{isBlank: 0, char: '2'},{isBlank: 1, char: ' '}],
-							[{isBlank: 0, char: '1'},{isBlank: 0, char: ' '},{isBlank: 0, char: ' '},{isBlank: 1, char: ' '}],
-							[{isBlank: 1, char: ' '},{isBlank: 1, char: ' '},{isBlank: 0, char: ' '},{isBlank: 1, char: ' '}],
-							[{isBlank: 1, char: ' '},{isBlank: 0, char: '#'},{isBlank: 1, char: ' '},{isBlank: 1, char: ' '}],
-							],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:-1, char: '1'},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:-1, char: '2'},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:-1, char: '3'},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:-1, char: '4'},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:-1, char: '5'},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:-1, char: '6'},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:-1, char: '7'},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:-1, char: '8'},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:-1, char: '10'},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:-1, char: '11'},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:-1, char: '9'},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:-1, char: '12'},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:-1, char: '13'},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:-1, char: '14'},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:-1, char: '15'},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},],
+								[{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:1, char: ' '},{isBlank:0, char: ' '},],
+								],
+						descriptionList: source
 					}
 				},
 				methods: {
 					clickCell(grid, x, y) {
-						if(grid.char >= '0' && grid.char <= '9'){
-							let word = firstMap[grid.char][1];
-							let isRow = firstMap[grid.char][0];
+						if(/^\d+$/.test(grid.char)){
+							let word = source[grid.char - 1][1];
+							let isRow = source[grid.char - 1][0];
 							if(isRow){
+								y++;
 								for(let i in word){
+									console.log(this.charlists[x][y].char);
 									this.charlists[x][y].char = word[i];
 									y++;
 								}
 							}else{
+								x++;
 								for(let i in word){
+									if(/^\d+$/.test(this.charlists[x][y].char))
+										console.log(this.charlists[x][y].char);
 									this.charlists[x][y].char = word[i];
 									x++;
 								}
